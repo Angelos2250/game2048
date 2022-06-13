@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
 
 image: maven:3.8.5-openjdk-17
 
@@ -20,3 +21,21 @@ build: # job
       - "target/*"
   script:
     - mvn compile
+
+test:
+  stage: test
+  tags:
+    - docker
+  dependencies:
+    - build
+  cache:
+    paths:
+      - $maven_packages_cache
+  artifacts:
+    name: $CI_JOB_NAME-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
+    expire_in: 1 week
+    paths:
+      - "target/surefire-reports/*"
+      - "target/site/jacoco/*"
+  script:
+    - mvn test
