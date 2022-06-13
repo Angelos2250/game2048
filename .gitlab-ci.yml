@@ -1,0 +1,11 @@
+stages:
+  - build
+
+image: maven:3.8.5-openjdk-17
+#variables:
+build:
+  stage: build
+  tags:
+    - docker
+  script:
+    - mvn compile
