@@ -5,7 +5,7 @@ image: maven:3.8.5-openjdk-17
 
 variables:
   maven_packages_cache: ".m2/repository"
-  MAVEN_OPTS: "-Dmaven.repo.local=/$maven_packages_cache"
+  MAVEN_OPTS: "-Dmaven.repo.local=./$maven_packages_cache"
 build: # job
   stage: build
   tags:
