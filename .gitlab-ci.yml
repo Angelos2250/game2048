@@ -2,15 +2,21 @@ stages:
   - build
 
 image: maven:3.8.5-openjdk-17
+
 variables:
   maven_packages_cache: ".m2/repository"
   MAVEN_OPTS: "-Dmaven.repo.local=/$maven_packages_cache"
-build:
+build: # job
   stage: build
   tags:
     - docker
   cache:
     paths:
       - $maven_packages_cache
+  artifacts:
+    name: $CI_JOB_NAME-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
+    expire_in: 1 week
+    paths:
+      - "target/*"
   script:
     - mvn compile
