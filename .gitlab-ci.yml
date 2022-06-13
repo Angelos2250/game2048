@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - package
 
 image: maven:3.8.5-openjdk-17
 
@@ -39,3 +40,20 @@ test:
       - "target/site/jacoco/*"
   script:
     - mvn test
+
+package:
+  stage: package
+  tags:
+    - docker
+  dependencies:
+    - build
+  cache:
+    paths:
+      - $maven_packages_cache
+  artifacts:
+    name: $CI_JOB_NAME-$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA
+    expire_in: 1 week
+    paths:
+      - "target/*.war"
+  script:
+    - mvn package
