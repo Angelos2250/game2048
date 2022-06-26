@@ -31,7 +31,7 @@ jobs:
       with: 
         name: code-${{ github.job }}-${{ github.sha }}
         path: .
-        
+      
   test:
     needs: 
       - build
@@ -52,7 +52,6 @@ jobs:
         distribution: 'adopt'
         
     - name: Test with Maven
-      working-directory: ueb03
       run: mvn test
       
   package:
@@ -75,13 +74,12 @@ jobs:
         distribution: 'adopt'
         
     - name: Package with Maven
-      working-directory: ueb03
       run: mvn package
     - name: Use the Upload Artifact GitHub Action
       uses: actions/upload-artifact@v2
       with: 
         name: war-${{ github.job }}-${{ github.sha }}
-        path: ueb03/target/*.war
+        path: ./target/*.war
         
   deploy_test:
       needs:
@@ -92,5 +90,4 @@ jobs:
         url: http://localhost:8081/game2048
       steps:
         - name: Deploy War
-          working-directory: ueb03
           run: cp -f ./target/*.war /usr/local/tomcat/webapps
