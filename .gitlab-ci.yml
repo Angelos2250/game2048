@@ -74,8 +74,8 @@ deploy_test:
   script:
     - docker rm --force tomcat
     - docker image rm --force game2048
-    - echo -e 'FROM tomcat:10.0-jdk17-openjdk-slim-bullseye \n COPY ./target/game2048.war /user/local/tomcat/webapps' | docker build -t game2048 -f- .
-    - docker -run --rm -d --name tomcat -p 8080:8080 game2048
+    - echo -e 'FROM tomcat:8.5.78-jdk17-openjdk-slim-bullseye \n COPY ./target/game2048.war /user/local/tomcat/webapps' | docker build -t game2048 -f- .
+    - docker run --rm -d --name tomcat -p 8080:8080 game2048
 
 stop_test:
   stage: deploy
