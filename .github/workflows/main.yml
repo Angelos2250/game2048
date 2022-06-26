@@ -30,6 +30,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with: 
         name: code-${{ github.job }}-${{ github.sha }}
+        path: .
         
   test:
     needs: 
